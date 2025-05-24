@@ -30,7 +30,16 @@
     <div class="col-12">
         <h5>Respostas</h5>
         <hr>
-        {{dd($thread->replies)}}
+        @foreach($thread->replies as $reply)
+        <div class="card" style="margin-bottom: 15px;">
+            <div class="card-body">
+                <p style="font-size: 15px;">{{$reply->reply}}</p>
+            </div>
+            <div class="card-footer" style="background-color: darkkhaki; font-size:13px">
+                <small>Resposta de {{$reply->user->name}} a {{$reply->created_at->diffForHumans()}}</small>
+            </div>
+        </div>
+        @endforeach
     </div>
 
     <div class="col-12">
@@ -39,10 +48,10 @@
             @csrf
             <div class="form-group">
                 <input type="hidden" name="thread_id" value="{{$thread->id}}">
-                <label for="">Responder</label>
+                <label for="">Envie Sua Resposta</label>
                 <textarea class="form-control" name="reply" id="" cols="30" rows="3"></textarea>
             </div>
-            <button type="submit">Responder</button>
+            <button type="submit" class="btn btn-success">Responder</button>
         </form>
     </div>
 </div>

@@ -51,11 +51,18 @@ class ThreadController extends Controller
             $thread['slug'] = Str::slug($thread['title']);
             
             $user = User::find(1);
-            $user->threads()->create($thread);
+            $thread = $user->threads()->create($thread);
 
-            dd('topico criado com sucesso');
+            flash('Tópico Criado Com Sucesso!')->success();
+            return redirect()->route('threads.show', $thread->slug);
+
         } catch (Exception $e) {
-            dd($e->getMessage());
+
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!' ;
+
+            flash($message)->warning();
+            return redirect()->back();
+        
         }
     }
 
@@ -98,9 +105,15 @@ class ThreadController extends Controller
             $thread = $this->thread->whereSlug($thread)->first();
             $thread->update($request->all());
 
-            \dd('topico atualizado com sucesso');
+            flash('Tópico Atualizado Com Sucesso!')->success();
+            return redirect()->route('threads.show', $thread->slug);
+
         } catch (Exception $e) {
-            \dd($e->getMessage());
+
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!' ;
+            
+            flash($message)->warning();
+            return redirect()->back();
         }
     }
 
@@ -113,12 +126,20 @@ class ThreadController extends Controller
     public function destroy($thread)
     {
         try{
+
             $thread = $this->thread->whereSlug($thread)->first();
             $thread->delete();
 
-            \dd('topico removido com sucesso');
+            flash('Tópico Removido Com Sucesso!')->success();
+            return redirect()->route('threads.index');
+
         } catch (Exception $e) {
-            \dd($e->getMessage());
+            
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!' ;
+            
+            flash($message)->warning();
+            return redirect()->back();
+
         }
     }
 }
