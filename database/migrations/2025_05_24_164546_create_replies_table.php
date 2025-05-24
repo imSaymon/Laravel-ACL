@@ -19,7 +19,7 @@ class CreateRepliesTable extends Migration
             // $table->unsignedBigInteger('user_id');
             $table->text('reply');
             $table->timestamps();
-
+            
             $table->foreignId('thread_id')->references('id')->on('threads')->onDelete('cascade');
             
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
