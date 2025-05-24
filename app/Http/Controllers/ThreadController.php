@@ -21,7 +21,7 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        $threads = $this->thread->paginate(15);
+        $threads = $this->thread->orderBy('created_at', 'DESC')->paginate(15);
 
         return view('threads.index', compact('threads'));
     }
@@ -56,23 +56,24 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($thread)
     {
-        return redirect()->route('threads.edit', $id);
+        $thread = $this->thread->whereSlug($thread)->first();
+        return view('threads.show', \compact('thread'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $thread
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($thread)
     {
-        $thread = $this->thread->find($id);
+        $thread = $this->thread->whereSlug($thread)->first();
         return view('threads.edit', \compact('thread'));
     }
 
@@ -80,13 +81,13 @@ class ThreadController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $thread)
     {
         try{
-            $thread = $this->thread->find($id);
+            $thread = $this->thread->whereSlug($thread)->first();
             $thread->update($request->all());
 
             \dd('topico atualizado com sucesso');
