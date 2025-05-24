@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
+use App\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ThreadController extends Controller
 {
@@ -45,7 +47,11 @@ class ThreadController extends Controller
     public function store(Request $request)
     {
         try{
-            $this->thread->create($request->all());
+            $thread = $request->all();
+            $thread['slug'] = Str::slug($thread['title']);
+            
+            $user = User::find(1);
+            $user->threads()->create($thread);
 
             dd('topico criado com sucesso');
         } catch (Exception $e) {
@@ -62,7 +68,9 @@ class ThreadController extends Controller
     public function show($thread)
     {
         $thread = $this->thread->whereSlug($thread)->first();
-        return view('threads.show', \compact('thread'));
+
+        if(!$thread) return redirect()->route('threads.index');
+        return view('threads.show', compact('thread'));
     }
 
     /**
@@ -99,13 +107,13 @@ class ThreadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($thread)
     {
         try{
-            $thread = $this->thread->find($id);
+            $thread = $this->thread->whereSlug($thread)->first();
             $thread->delete();
 
             \dd('topico removido com sucesso');
