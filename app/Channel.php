@@ -11,6 +11,6 @@ class Channel extends Model
     
     public function threads()
     {
-        return $this->hasMany(Thread::class);
+        return $this->hasMany(Thread::class)->orderBy('created_at', 'DESC');
     }
 }
