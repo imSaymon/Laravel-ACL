@@ -8,6 +8,7 @@ use App\Thread;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class ThreadController extends Controller
@@ -25,6 +26,12 @@ class ThreadController extends Controller
      */
     public function index(Request $request, Channel $channel)
     {
+
+
+        // if(!Gate::allows('access-index-thread')) {
+        //     return \dd('Nao tenho permissão');
+        // }
+
         $channelParam = $request->channel;
         if(null !== $channelParam) {
             $threads = $channel->whereSlug($channelParam)->first()->threads()->paginate(15);
@@ -98,6 +105,8 @@ class ThreadController extends Controller
     public function edit($thread)
     {
         $thread = $this->thread->whereSlug($thread)->first();
+
+        $this->authorize('update', $thread);
         return view('threads.edit', \compact('thread'));
     }
 

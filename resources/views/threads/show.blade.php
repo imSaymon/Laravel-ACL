@@ -15,6 +15,7 @@
                 {{$thread->body}}
             </div>
             <div class="card-footer">
+                @can('update', $thread)
                 <a href="{{route('threads.edit', $thread->slug)}}" class="btn tbn-sm btn-primary">Editar</a>
                 <a href="3" class="btn tbn-sm btn-danger" onclick="event.preventDefault(); document.querySelector('form.thread-rm').submit();">Remover</a>
 
@@ -22,7 +23,7 @@
                     @csrf
                     @method('DELETE')
                 </form>
-
+                @endcan
             </div>
         </div>
         <hr>
