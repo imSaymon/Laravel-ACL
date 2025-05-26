@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Http\Requests\ThreadRequest;
 use App\Thread;
 use App\User;
 use Exception;
@@ -49,10 +50,10 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ThreadRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ThreadRequest $request)
     {
         try{
             $thread = $request->all();
@@ -103,11 +104,11 @@ class ThreadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ThreadRequest  $request
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $thread)
+    public function update(ThreadRequest $request, $thread)
     {
         try{
             $thread = $this->thread->whereSlug($thread)->first();
