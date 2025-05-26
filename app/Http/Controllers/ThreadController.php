@@ -26,8 +26,6 @@ class ThreadController extends Controller
      */
     public function index(Request $request, Channel $channel)
     {
-
-
         // if(!Gate::allows('access-index-thread')) {
         //     return \dd('Nao tenho permissão');
         // }

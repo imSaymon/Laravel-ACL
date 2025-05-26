@@ -45,7 +45,7 @@
         @endforeach
     </div>
     @endif
-
+    @auth
     <div class="col-12">
         <hr>
         <form action="{{route('replies.store')}}" method="post">
@@ -63,5 +63,10 @@
             <button type="submit" class="btn btn-success">Responder</button>
         </form>
     </div>
+    @else
+    <div class="col-12 text-center">
+        <h5>É Preciso Estar Logado Para Responder Ao Tópico.</h5>
+    </div>
+    @endauth
 </div>
 @endsection

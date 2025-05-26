@@ -8,7 +8,7 @@ class Resource extends Model
 {
     protected $fillable = ['name', 'resource', 'is_menu'];
 
-    public function role()
+    public function roles()
     {
         return $this->belongsToMany(Role::class);
     }

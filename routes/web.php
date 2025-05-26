@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,11 @@ Route::get('/', function () {
     return redirect()->route('threads.index');
 });
 
-Route::resource('threads', 'ThreadController');
+Route::group(['middleware' => 'access.control.list'], function() {
+
+    Route::resource('threads', 'ThreadController');
+
+});
 
 Route::post('/replies/store', 'ReplyController@store')->name('replies.store');
 
