@@ -9,6 +9,14 @@
     <div class="col-12">
         <form action="{{route('threads.store')}}" method="post">
             @csrf
+            <div class="form-group">
+                <label for="">Escolha Um Canal Para O Tópico</label>
+                <select name="channel_id" id="" class="form-control">
+                    @foreach($channels as $channel)
+                        <option value="{{$channel->id}}">{{$channel->name}}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="form-group">
                 <label for="">Titulo Tópico</label>
