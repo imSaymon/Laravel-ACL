@@ -12,17 +12,17 @@
             <div class="form-group">
                 <label for="">Escolha Um Canal Para O Tópico</label>
                 <select name="channel_id" id="" class="form-control @error('channel_id') is-invalid @enderror">
-                        <option value="">Selecione Um Canal</option>
+                    <option value="">Selecione Um Canal</option>
                     @foreach($channels as $channel)
-                        <option value="{{$channel->id}}"
-                        @if(old('channel_id') == $channel->id) selected @endif
+                    <option value="{{$channel->id}}"
+                        @if(old('channel_id')==$channel->id) selected @endif
                         >{{$channel->name}}</option>
                     @endforeach
                 </select>
                 @error('channel_id')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
                 @enderror
             </div>
 
@@ -30,9 +30,9 @@
                 <label for="">Titulo Tópico</label>
                 <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{old('title')}}">
                 @error('title')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
                 @enderror
             </div>
 
@@ -40,9 +40,9 @@
                 <label for="">Conteudo Tópico</label>
                 <textarea name="body" id="" cols="30" rows="10" class="form-control @error('body') is-invalid @enderror">{{old('body')}}</textarea>
                 @error('body')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
                 @enderror
             </div>
 

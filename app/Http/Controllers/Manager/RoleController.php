@@ -20,26 +20,26 @@ class RoleController extends Controller
 	}
 
 	/**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-    	$roles = $this->role->paginate(10);
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		$roles = $this->role->paginate(10);
 
-        return view('manager.roles.index', compact('roles'));
-    }
+		return view('manager.roles.index', compact('roles'));
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-	    return view('manager.roles.create');
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		return view('manager.roles.create');
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -48,44 +48,43 @@ class RoleController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-    public function store(RoleRequest $request)
-    {
-	    try {
-	    	$this->role->create($request->all());
+	public function store(RoleRequest $request)
+	{
+		try {
+			$this->role->create($request->all());
 
-		    flash('Papél criado com sucesso!')->success();
-		    return redirect()->route('roles.index');
+			flash('Papél criado com sucesso!')->success();
+			return redirect()->route('roles.index');
+		} catch (\Exception $e) {
+			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar criação...';
 
-	    }catch (\Exception $e) {
-		    $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar criação...';
+			flash($message)->error();
+			return redirect()->back();
+		}
+	}
 
-		    flash($message)->error();
-		    return redirect()->back();
-	    }
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show($id)
+	{
+		return redirect()->route('roles.edit', $id);
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return redirect()->route('roles.edit', $id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    	$role = $this->role->find($id);
-	    return view('manager.roles.edit', compact('role'));
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit($id)
+	{
+		$role = $this->role->find($id);
+		return view('manager.roles.edit', compact('role'));
+	}
 
 	/**
 	 * Update the specified resource in storage.
@@ -95,45 +94,43 @@ class RoleController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-    public function update(RoleRequest $request, $id)
-    {
-	    try {
-		    $role = $this->role->find($id);
-		    $role->update($request->all());
+	public function update(RoleRequest $request, $id)
+	{
+		try {
+			$role = $this->role->find($id);
+			$role->update($request->all());
 
-		    flash('Papél atualizado com sucesso!')->success();
-		    return redirect()->route('roles.index');
+			flash('Papél atualizado com sucesso!')->success();
+			return redirect()->route('roles.index');
+		} catch (\Exception $e) {
+			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
 
-	    }catch (\Exception $e) {
-		    $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
+			flash($message)->error();
+			return redirect()->back();
+		}
+	}
 
-		    flash($message)->error();
-		    return redirect()->back();
-	    }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        try {
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id)
+	{
+		try {
 			$role = $this->role->find($id);
 			$role->delete();
 
 			flash('Papél removido com sucesso!')->success();
 			return redirect()->route('roles.index');
+		} catch (\Exception $e) {
+			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar remoção...';
 
-        }catch (\Exception $e) {
-        	$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar remoção...';
-
-        	flash($message)->error();
-        	return redirect()->back();
-        }
-    }
+			flash($message)->error();
+			return redirect()->back();
+		}
+	}
 
 	/**
 	 * @param int $role
@@ -153,14 +150,13 @@ class RoleController extends Controller
 	 */
 	public function updateSyncResources($role, Request $request)
 	{
-		try{
+		try {
 			$role = $this->role->find($role);
 			$role->resources()->sync($request->resources);
 
 			flash('Recursos adicionados com sucesso!')->success();
 			return redirect()->route('roles.resources', $role);
-
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar adição de recursos...';
 
 			flash($message)->error();

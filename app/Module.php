@@ -10,11 +10,11 @@ class Module extends Model
 
     public function roles()
     {
-    	return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class);
     }
 
     public function resources()
     {
-    	return $this->hasMany(Resource::class);
+        return $this->hasMany(Resource::class);
     }
 }

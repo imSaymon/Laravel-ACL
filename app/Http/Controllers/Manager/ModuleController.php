@@ -56,7 +56,6 @@ class ModuleController extends Controller
 
 			flash('Módulo criado com sucesso!')->success();
 			return redirect()->route('modules.index');
-
 		} catch (\Exception $e) {
 			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
 
@@ -107,8 +106,7 @@ class ModuleController extends Controller
 
 			flash('Módulo atualizado com sucesso!')->success();
 			return redirect()->route('modules.index');
-
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
 
 			flash($message)->error();
@@ -130,8 +128,7 @@ class ModuleController extends Controller
 
 			flash('Módulo removido com sucesso!')->success();
 			return redirect()->route('modules.index');
-
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar remoção...';
 
 			flash($message)->error();
@@ -142,16 +139,16 @@ class ModuleController extends Controller
 	public function syncResources(Module $module, Resource $resource)
 	{
 		$resources = $resource->whereNull('module_id')
-		                     ->where('is_menu', true)
-		                     ->get();
+			->where('is_menu', true)
+			->get();
 
 		return view('manager.modules.sync-resources', compact('module', 'resources'));
 	}
 
 	public function updateSyncResources(Module $module, Request $request, Resource $resource)
 	{
-		try{
-			foreach($request->resources as $r) {
+		try {
+			foreach ($request->resources as $r) {
 				$resourceModel = $resource->find($r);
 				$resourceModel->module()->associate($module);
 				$resourceModel->save();

@@ -55,9 +55,9 @@
                 <label for="">Envie Sua Resposta</label>
                 <textarea class="form-control @error('reply') is-invalid @enderror" name="reply" id="" cols="30" rows="3">{{old('reply')}}</textarea>
                 @error('reply')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
                 @enderror
             </div>
             <button type="submit" class="btn btn-success">Responder</button>

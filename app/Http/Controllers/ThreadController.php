@@ -14,28 +14,19 @@ use Illuminate\Support\Str;
 class ThreadController extends Controller
 {
     private $thread;
-    
+
     public function __construct(Thread $thread)
     {
-        $this->thread = $thread;    
+        $this->thread = $thread;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Channel $channel)
+    public function index(Request $request)
     {
-        // if(!Gate::allows('access-index-thread')) {
-        //     return \dd('Nao tenho permissão');
-        // }
-
-        $channelParam = $request->channel;
-        if(null !== $channelParam) {
-            $threads = $channel->whereSlug($channelParam)->first()->threads()->paginate(15);
-        } else {
-            $threads = $this->thread->orderBy('created_at', 'DESC')->paginate(15);
-        }
+        $threads = $this->thread->threadsByChannels($request->channel);
 
         return view('threads.index', compact('threads'));
     }
@@ -60,23 +51,21 @@ class ThreadController extends Controller
      */
     public function store(ThreadRequest $request)
     {
-        try{
+        try {
             $thread = $request->all();
             $thread['slug'] = Str::slug($thread['title']);
-            
+
             $user = User::find(1);
             $thread = $user->threads()->create($thread);
 
             flash('Tópico Criado Com Sucesso!')->success();
             return redirect()->route('threads.show', $thread->slug);
-
         } catch (Exception $e) {
 
-            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!' ;
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!';
 
             flash($message)->warning();
             return redirect()->back();
-        
         }
     }
 
@@ -90,7 +79,7 @@ class ThreadController extends Controller
     {
         $thread = $this->thread->whereSlug($thread)->first();
 
-        if(!$thread) return redirect()->route('threads.index');
+        if (!$thread) return redirect()->route('threads.index');
         return view('threads.show', compact('thread'));
     }
 
@@ -117,17 +106,16 @@ class ThreadController extends Controller
      */
     public function update(ThreadRequest $request, $thread)
     {
-        try{
+        try {
             $thread = $this->thread->whereSlug($thread)->first();
             $thread->update($request->all());
 
             flash('Tópico Atualizado Com Sucesso!')->success();
             return redirect()->route('threads.show', $thread->slug);
-
         } catch (Exception $e) {
 
-            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!' ;
-            
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!';
+
             flash($message)->warning();
             return redirect()->back();
         }
@@ -141,21 +129,19 @@ class ThreadController extends Controller
      */
     public function destroy($thread)
     {
-        try{
+        try {
 
             $thread = $this->thread->whereSlug($thread)->first();
             $thread->delete();
 
             flash('Tópico Removido Com Sucesso!')->success();
             return redirect()->route('threads.index');
-
         } catch (Exception $e) {
-            
-            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!' ;
-            
+
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Processar Sua Requisição!';
+
             flash($message)->warning();
             return redirect()->back();
-
         }
     }
 }

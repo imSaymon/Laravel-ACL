@@ -18,9 +18,9 @@ class AccessControlMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $ignoreResources = config('accesscontrollist') ['ignore.resources'];
+        $ignoreResources = config('accesscontrollist')['ignore.resources'];
 
-        if(!\in_array($request->route()->getName(), $ignoreResources)) {
+        if (!in_array($request->route()->getName(), $ignoreResources)) {
             $this->authorize($request->route()->getName());
         }
 

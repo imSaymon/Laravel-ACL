@@ -18,7 +18,7 @@ class CreateModuleRoleTable extends Migration
             $table->unsignedBigInteger('module_id');
 
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-	        $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
         });
     }
 

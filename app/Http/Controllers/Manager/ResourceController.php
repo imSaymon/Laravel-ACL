@@ -55,8 +55,7 @@ class ResourceController extends Controller
 
 			flash('Recurso atualizado com sucesso!')->success();
 			return redirect()->route('resources.index');
-
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
 
 			flash($message)->error();
@@ -103,8 +102,7 @@ class ResourceController extends Controller
 
 			flash('Recurso atualizado com sucesso!')->success();
 			return redirect()->route('resources.index');
-
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
 
 			flash($message)->error();
@@ -126,8 +124,7 @@ class ResourceController extends Controller
 
 			flash('Recurso removido com sucesso!')->success();
 			return redirect()->route('resources.index');
-
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar remoção...';
 
 			flash($message)->error();

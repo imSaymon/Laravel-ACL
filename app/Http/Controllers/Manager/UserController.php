@@ -20,30 +20,30 @@ class UserController extends Controller
 	}
 
 	/**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-    	$users = $this->user->paginate(10);
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		$users = $this->user->paginate(10);
 
-        return view('manager.users.index', compact('users'));
-    }
+		return view('manager.users.index', compact('users'));
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $user = $this->user->find($id);
-        $roles = \App\Role::all('id', 'name');
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit($id)
+	{
+		$user = $this->user->find($id);
+		$roles = \App\Role::all('id', 'name');
 
-        return view('manager.users.edit', compact('user', 'roles'));
-    }
+		return view('manager.users.edit', compact('user', 'roles'));
+	}
 
 	/**
 	 * Update the specified resource in storage.
@@ -53,25 +53,24 @@ class UserController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-    public function update(UserRequest $request, $id)
-    {
-        try{
-        	$data = $request->all();
+	public function update(UserRequest $request, $id)
+	{
+		try {
+			$data = $request->all();
 
-        	if($data['password']){
+			if ($data['password']) {
 
-        		$validator = Validator::make($data, [
-        			'password' => 'required|string|min:8|confirmed'
-		        ]);
+				$validator = Validator::make($data, [
+					'password' => 'required|string|min:8|confirmed'
+				]);
 
-        		if($validator->fails())
-        			return redirect()->back()->withErrors($validator);
+				if ($validator->fails())
+					return redirect()->back()->withErrors($validator);
 
 				$data['password'] = bcrypt($data['password']);
-
-	        } else {
-        		unset($data['password']);
-	        }
+			} else {
+				unset($data['password']);
+			}
 
 			$user = $this->user->find($id);
 			$user->update($data);
@@ -82,12 +81,11 @@ class UserController extends Controller
 
 			flash('Usuário atualizado com sucesso!')->success();
 			return redirect()->route('users.index');
+		} catch (\Exception $e) {
+			$message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
 
-        }catch (\Exception $e) {
-	        $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar atualização...';
-
-	        flash($message)->error();
-	        return redirect()->back();
-        }
-    }
+			flash($message)->error();
+			return redirect()->back();
+		}
+	}
 }

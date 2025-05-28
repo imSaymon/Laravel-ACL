@@ -15,21 +15,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('login');
+	return redirect()->route('login');
 });
 
-Route::group(['middleware' => 'access.control.list'], function() {
+Route::group(['middleware' => 'access.control.list'], function () {
 
-    Route::resource('threads', 'ThreadController');
-
+	Route::resource('threads', 'ThreadController');
 });
 
 Route::post('/replies/store', 'ReplyController@store')->name('replies.store');
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth'/*, 'access.control.list'*/], 'namespace' => 'Manager', 'prefix' => 'manager'], function(){
-	Route::get('/', function(){
+Route::group(['middleware' => ['auth', 'access.control.list'], 'namespace' => 'Manager', 'prefix' => 'manager'], function () {
+	Route::get('/', function () {
 		return redirect()->route('users.index');
 	});
 

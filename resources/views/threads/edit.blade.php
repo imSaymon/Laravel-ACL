@@ -15,9 +15,9 @@
                 <label for="">Titulo Tópico</label>
                 <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{$thread->title}}">
                 @error('title')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
                 @enderror
             </div>
 
@@ -25,9 +25,9 @@
                 <label for="">Conteudo Tópico</label>
                 <textarea name="body" id="" cols="30" rows="10" class="form-control @error('body') is-invalid @enderror">{{$thread->body}}</textarea>
                 @error('body')
-                    <div class="invalid-feedback">
-                        {{$message}}
-                    </div>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
                 @enderror
             </div>
 

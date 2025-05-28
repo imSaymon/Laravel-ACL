@@ -20,10 +20,9 @@ class ReplyController extends Controller
 
             flash('Resposta Criada Com Sucesso!')->success();
             return redirect()->back();
+        } catch (Exception $e) {
 
-        } catch(Exception $e) {
-            
-            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Postar Resposta!' ;
+            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro Ao Postar Resposta!';
 
             flash($message)->warning();
             return redirect()->back();
